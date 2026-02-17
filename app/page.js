@@ -28,6 +28,13 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    if (!supabase) {
+      setError(
+        "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."
+      );
+      setIsLoading(false);
+      return;
+    }
     const loadIssues = async () => {
       setIsLoading(true);
       setError("");
@@ -62,6 +69,12 @@ export default function Home() {
   const onSubmit = (event) => {
     event.preventDefault();
     setError("");
+    if (!supabase) {
+      setError(
+        "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."
+      );
+      return;
+    }
     if (
       !summary.trim() ||
       !description.trim() ||
@@ -150,6 +163,12 @@ export default function Home() {
   };
 
   const moveIssue = (id, status) => {
+    if (!supabase) {
+      setError(
+        "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."
+      );
+      return;
+    }
     const updateIssue = async () => {
       const { data, error: updateError } = await supabase
         .from("issues")
@@ -204,6 +223,12 @@ export default function Home() {
   };
 
   const deleteIssue = (id) => {
+    if (!supabase) {
+      setError(
+        "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."
+      );
+      return;
+    }
     const removeIssue = async () => {
       const confirmed = window.confirm("Delete this issue? This cannot be undone.");
       if (!confirmed) return;
@@ -257,6 +282,12 @@ export default function Home() {
   };
 
   const copyIssue = async (issue) => {
+    if (!supabase) {
+      setError(
+        "Missing Supabase env vars. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY."
+      );
+      return;
+    }
     const confirmed = window.confirm("Do you want to duplicate the issue?");
     if (!confirmed) return;
     const { data, error: keyError } = await supabase
